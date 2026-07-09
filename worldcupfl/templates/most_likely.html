@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block buttons %}
+<button class="btn btn-success shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اطلاعات تیم ها از فایل بارگذاری شده است.</button>
+<a href="/draw" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">انجام قرعه‌کشی گروه ها</a>
+<a href="/group-stage" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اجرای مرحله گروهی و نمایش جدول هر گروه</a>
+<a href="/full-simulation" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اجرای کامل جام (گروهی + حذفی) و نمایش قهرمان</a>
+<a href="/most-likely" class="btn btn-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">شبیه‌سازی ۱۰۰۰ باره و گزارش درصد قهرمانی</a>
+<a href="/bracket" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">نمایش براکت حذفی آخرین شبیه‌سازی</a>
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center fw-bold mb-1">گزارش درصد شانس قهرمانی 📊</h2>
+<p class="text-center text-muted mb-4">بر اساس ۱۰۰۰ شبیه‌سازی</p>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        {% for team in results %}
+        <div class="d-flex align-items-center mb-2">
+            <div class="text-muted text-center me-2" style="width: 30px;">{{ loop.index }}</div>
+            <div class="fw-semibold me-3" style="width: 150px;">{{ team.name }}</div>
+            <div class="flex-grow-1">
+                <div class="progress" style="height: 24px;">
+                    <div class="progress-bar fw-bold bg-primary" style="width: {{ team.percentage }}%">
+                    </div>
+                </div>
+            </div>
+            <div class="ms-2 fw-bold" style="width: 50px;">{{ team.percentage }}%</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

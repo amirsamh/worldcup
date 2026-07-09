@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block buttons %}
+<button class="btn btn-success shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اطلاعات تیم ها از فایل بارگذاری شده است.</button>
+<a href="/draw" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">انجام قرعه‌کشی گروه ها</a>
+<a href="/group-stage" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اجرای مرحله گروهی و نمایش جدول هر گروه</a>
+<a href="/full-simulation" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">اجرای کامل جام (گروهی + حذفی) و نمایش قهرمان</a>
+<a href="/most-likely" class="btn btn-outline-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">شبیه‌سازی ۱۰۰۰ باره و گزارش درصد قهرمانی</a>
+<a href="/bracket" class="btn btn-primary shadow-sm d-block m-2 mx-auto w-50 w-md-25" style="max-width: 400px;">نمایش براکت حذفی آخرین شبیه‌سازی</a>
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center fw-bold mb-4">براکت حذفی آخرین شبیه‌سازی 📊</h2>
+{% for stage in bracket %}
+
+<h2 class="mb-3 fw-semibold">{{ stage.round_name }}</h2>
+<div class="row mb-2">
+    {% for match in stage.matches %}
+    <div class="col-md-3 col-sm-6 mb-3">
+        <div class="card h-100">
+            <div class="card-header text-center fw-bold">
+                {{ stage.round_name }} - Match {{ loop.index }}
+            </div>
+            <table class="table table-sm mb-0">
+                <tbody>
+                    <tr class="{{ 'table-warning fw-bold' if match.winner == match.team1 }}">
+                        <td>{{ '🏆 ' if match.winner == match.team1 }}{{ match.team1 }}</td>
+                        <td class="text-end fw-bold">{{ match.goals1 }}</td>
+                    </tr>
+                    <tr class="{{ 'table-warning fw-bold' if match.winner == match.team2 }}">
+                        <td>{{ '🏆 ' if match.winner == match.team2 }}{{ match.team2 }}</td>
+                        <td class="text-end fw-bold">{{ match.goals2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}
