@@ -1,3 +1,11 @@
+#===========================
+# دانشجو: سید امیرسام حسینی غنچه
+# شماره دانشجویی: 404130613
+# عنوان پروژه: شبیه ساز جام جهانی
+# تاریخ تحویل: 
+#===========================
+
+
 import csv
 from itertools import combinations
 import math
@@ -7,6 +15,7 @@ import random
 
 
 class Colors:
+    # Color variables for better readability in terminal
     GREEN = '\033[92m'
     WARNING = '\033[93m'
     DANGER = '\033[91m'
@@ -15,6 +24,7 @@ class Colors:
 
 
 class Team:
+    """کلاس تیم ملی فوتبال"""
     def __init__(self, name, attack, defense, rank):
         self.name = name
         self.attack = attack
@@ -26,14 +36,27 @@ class Team:
         self.group = None
 
     def goal_difference(self):
+        """محاسبه اختلاف گل
+        Returns:
+            int: عدد اختلاف گل
+        """
         return self.goals_for - self.goals_against
     
     def reset_stats(self):
+        """ریست کردن گل ها و امتیازات تیم"""
         self.goals_for = 0
         self.goals_against = 0
         self.points = 0
 
     def simulate_match(self, opponent, is_knockout=False):
+        """شبیه‌سازی یک بازی
+        Args:
+            opponent (Team): تیم حریف
+            is_knockout (bool): آیا مرحله حذفی است یا نه
+
+        Returns:
+            tuple: (گل های خود, گل های تیم حریف, برنده مسابقه)
+        """
         lambda_self = (self.attack / 100) * 1.5 + (1 - opponent.defense / 100) * 0.8
         lambda_opp = (opponent.attack / 100) * 1.5 + (1 - self.defense / 100) * 0.8
 
@@ -78,6 +101,7 @@ class Team:
     
 
 class Match:
+    """کلاس یک مچ بین دو تیم"""
     def __init__(self, team1, team2, is_knockout=False):
         self.is_knockout = is_knockout
         self.team1 = team1
@@ -87,6 +111,7 @@ class Match:
         self.winner = None
 
     def play(self):
+        """شبیه سازی کردن یک بازی بین دو تیم و مشخص کردن برنده"""
         self.goals1, self.goals2, winner_name = self.team1.simulate_match(self.team2, self.is_knockout)
         if winner_name == self.team1.name:
             self.winner = self.team1
@@ -97,6 +122,7 @@ class Match:
 
 
 class Group:
+    """کلاس گروه در مرحله گروهی"""
     def __init__(self, name, teams):
         self.name = name
         self.teams = teams
@@ -104,10 +130,16 @@ class Group:
             team.group = name
     
     def play_all_matches(self):
+        """شبیه سازی تمام مچ های گروه و مشخص کردن برنده/نتیجه"""
         for team_a, team_b in combinations(self.teams, 2):
             Match(team_a, team_b, is_knockout=False).play()
 
     def get_ranking(self):
+        """برگرداندن رده بندی تیم های گروه
+        
+        Returns:
+            list: لیست ترتیب رده بندی تیم های گروه
+        """
         return sorted(
             self.teams,
             key=lambda t: (t.points, t.goal_difference(), t.goals_for, random.random()),
@@ -115,29 +147,43 @@ class Group:
         )
 
     def advance_teams(self):
+        """فرستادن دو تیم برتر گروه به مرحله بعد
+
+        Returns:
+            tuple: (تیم اول, تیم دوم)
+        """
         ranking = self.get_ranking()
         return ranking[0], ranking[1]
     
 
 class KnockOutStage:
+    """کلاس مرحله حذفی"""
     def __init__(self, round_name, matches):
         self.round_name = round_name
         self.matches = matches
 
     def play_round(self):
+        """شبیه سازی مچ های مرحله حذفی"""
         for match in self.matches:
             match.play()
 
     def get_winners(self):
+        """برگرداندن برنده های مرحله حذفی
+
+        Returns:
+            list: لیست برنده های مرحله حذفی
+        """
         return [match.winner for match in self.matches]
     
     def display_results(self):
+        """نمایش نتایج مرحله حذفی"""
         print(f"\n=============== {self.round_name} ===============")
         for match in self.matches:
             print(f"{match.team1.name} {match.goals1}-{match.goals2} {match.team2.name} -> winner: {match.winner.name}")
 
 
 class WorldCupSimulator:
+    """کلاس اجرای شبیه ساز جام جهانی"""
     def __init__(self):
         self.teams = []
         self.groups = []
@@ -148,6 +194,11 @@ class WorldCupSimulator:
         self.champion = None
 
     def load_teams_from_csv(self, filename):
+        """خواندن اطلاعات از فایل
+        
+        Args:
+            filename (str): نام فایل
+        """
         self.teams = []
         with open(filename, newline='') as f:
             reader = csv.DictReader(f)
@@ -161,6 +212,7 @@ class WorldCupSimulator:
                 self.teams.append(team)
         
     def seed_and_draw_groups(self):
+        """قرعه کشی گروه"""
         sorted_teams = sorted(self.teams, key=lambda t: t.rank)
         seed1 = sorted_teams[0:8]
         seed2 = sorted_teams[8:16]
@@ -176,6 +228,11 @@ class WorldCupSimulator:
             self.groups.append(Group(name, [seed1[i], seed2[i], seed3[i], seed4[i]]))
 
     def run_group_stage(self, should_print):
+        """شبیه سازی مرحله گروهی
+        
+        Args:
+            should_print (bool): آیا نتیجه بازی گروهی پرینت شود یا نه (برای جلوگیری از اطلاعات اضافی در شبیه سازی ۱۰۰۰ تایی)
+        """
         for group in self.groups:
             group.play_all_matches()
             if should_print:
@@ -184,6 +241,7 @@ class WorldCupSimulator:
                     print(f"{i}. {team.name} Pts:{team.points}  GF:{team.goals_for}  GA:{team.goals_against}  GD:{team.goal_difference()}")
 
     def setup_knockout_bracket(self):
+        """چیدن براکت مرحله حذفی"""
         advanced_teams = [group.advance_teams() for group in self.groups]
 
         a1, a2 = advanced_teams[0]
@@ -209,6 +267,11 @@ class WorldCupSimulator:
         self.round_of_16 = KnockOutStage("Round of 16", matches)
 
     def run_knockout_stage(self, should_print):
+        """شبیه سازی مرحله حذفی
+        
+        Args:
+            should_print (bool): آیا نتیجه بازی پرینت شود یا نه (برای جلوگیری از اطلاعات اضافی در شبیه سازی ۱۰۰۰ تایی)
+        """
         self.round_of_16.play_round()
         if should_print:
             self.round_of_16.display_results()
@@ -233,6 +296,11 @@ class WorldCupSimulator:
         self.champion = self.final.get_winners()[0]
 
     def run_full_simulation(self):
+        """اجرای کامل شبیه سازی
+        
+        Returns:
+            Team: تیم برنده
+        """
         for team in self.teams:
             team.reset_stats()
         
@@ -246,6 +314,11 @@ class WorldCupSimulator:
         return self.champion
 
     def most_likely_champion(self, simulation_count=1000):
+        """تکرار شبیه سازی به تعداد دلخواه (دیفالت ۱۰۰۰)
+        
+        Args:
+            simulation_count (int): تعداد دفعات شبیه سازی
+        """
         stats = {}
         for i in range(simulation_count):
             print(f"simulation {i} completed.")
@@ -263,8 +336,8 @@ class WorldCupSimulator:
         for name in sorted(stats, key=stats.get, reverse=True):
             print(f"{name}: {stats[name] / simulation_count * 100:.1f}%")
 
-
     def display_bracket(self):
+        """نمایش براکت"""
         for stage in [self.round_of_16, self.quarterfinals, self.semifinals, self.final]:
             if stage:
                 stage.display_results()
@@ -308,7 +381,7 @@ def main():
 
         elif choice == '4':
             if not sim.teams:
-                print(Colors.DANGER + "Please load teams first (option 1)." + Colors.DANGER)
+                print(Colors.DANGER + "Please load teams first (option 1)." + Colors.ENDC)
             else:
                 sim.run_full_simulation()
 
