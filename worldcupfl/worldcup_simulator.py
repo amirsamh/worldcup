@@ -1,5 +1,4 @@
 import csv
-from itertools import combinations
 import numpy as np
 import random
 
@@ -94,8 +93,11 @@ class Group:
             team.group = name
     
     def play_all_matches(self):
-        for team_a, team_b in combinations(self.teams, 2):
-            Match(team_a, team_b, is_knockout=False).play()
+        for i in range(len(self.teams)):
+            for j in range(i + 1, len(self.teams)):
+                team_a = self.teams[i]
+                team_b = self.teams[j]
+                Match(team_a, team_b, is_knockout=False).play()
 
     def get_ranking(self):
         return sorted(

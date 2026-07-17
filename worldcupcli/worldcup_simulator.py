@@ -7,8 +7,6 @@
 
 
 import csv
-from itertools import combinations
-import math
 import numpy as np
 import os
 import random
@@ -131,8 +129,11 @@ class Group:
     
     def play_all_matches(self):
         """شبیه سازی تمام مچ های گروه و مشخص کردن برنده/نتیجه"""
-        for team_a, team_b in combinations(self.teams, 2):
-            Match(team_a, team_b, is_knockout=False).play()
+        for i in range(len(self.teams)):
+            for j in range(i + 1, len(self.teams)):
+                team_a = self.teams[i]
+                team_b = self.teams[j]
+                Match(team_a, team_b, is_knockout=False).play()
 
     def get_ranking(self):
         """برگرداندن رده بندی تیم های گروه
