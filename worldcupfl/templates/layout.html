@@ -24,6 +24,10 @@
         </div>
         <hr>
         <div dir="ltr">
+            {% if error %}
+            <p class="text-danger text-center">{{ error }}</p>
+            {% endif %}
+
             {% block content %}
             {% endblock %}
         </div>

@@ -302,10 +302,7 @@ class WorldCupSimulator:
         Returns:
             Team: تیم برنده
         """
-        for team in self.teams:
-            team.reset_stats()
-        
-        self.seed_and_draw_groups()
+
         self.run_group_stage(should_print=True)
         self.setup_knockout_bracket()
         self.run_knockout_stage(should_print=True)

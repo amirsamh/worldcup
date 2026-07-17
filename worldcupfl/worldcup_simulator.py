@@ -242,8 +242,7 @@ class WorldCupSimulator:
     def run_full_simulation(self):
         for team in self.teams:
             team.reset_stats()
-        
-        self.seed_and_draw_groups()
+
         self.run_group_stage()
         self.setup_knockout_bracket()
         self.run_knockout_stage()
