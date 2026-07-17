@@ -302,14 +302,17 @@ class WorldCupSimulator:
         Returns:
             Team: تیم برنده
         """
+        if self.groups != []:
+            self.run_group_stage(should_print=True)
+            self.setup_knockout_bracket()
+            self.run_knockout_stage(should_print=True)
 
-        self.run_group_stage(should_print=True)
-        self.setup_knockout_bracket()
-        self.run_knockout_stage(should_print=True)
+            print(Colors.BOLD + f"\n🏆 Champion: {self.champion.name} 🏆" + Colors.ENDC)
 
-        print(Colors.BOLD + f"\n🏆 Champion: {self.champion.name} 🏆" + Colors.ENDC)
+            return self.champion
 
-        return self.champion
+        else:
+            print(Colors.DANGER + "Please draw groups first (option 2)." + Colors.ENDC)
 
     def most_likely_champion(self, simulation_count=1000):
         """تکرار شبیه سازی به تعداد دلخواه (دیفالت ۱۰۰۰)
