@@ -368,7 +368,7 @@ def main():
                 print(Colors.DANGER + f"Error: {e}" + Colors.ENDC)
 
         elif choice == '2':
-            if not sim:
+            if not sim.teams:
                 print(Colors.DANGER + f"Please load teams first (option 1)." + Colors.ENDC)
             else: 
                 sim.seed_and_draw_groups()
