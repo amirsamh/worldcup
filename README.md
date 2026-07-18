@@ -54,7 +54,7 @@ git clone https://github.com/amirsamh/worldcup.git
 ```
 2. نصب کردن وابستگی ها
 ```bash
-pip install numpy
+pip install -r requirements.txt
 ```
 3. اجرای برنامه
 ```bash
@@ -68,11 +68,11 @@ git clone https://github.com/amirsamh/worldcup.git
 ```
 2. نصب کردن وابستگی ها
 ```bash
-cd worldcupfl
 pip install -r requirements.txt
 ```
 3. اجرای برنامه
 ```bash
+cd worldcupfl
 python -m flask run
 ```
 4. سپس به لینک لوکال‌هاست داده شده بروید.
