@@ -34,17 +34,16 @@
 │   ├── app.py
 │   ├── worldcup_simulator.py
 │   ├── worldcup_2026_teams.csv
-│   ├── templates/
-│   │   ├── index.html
-│   │   ├── draw.html
-│   │   ├── group_stage.html
-│   │   ├── full_simulation.html
-│   │   ├── most_likely.html
-│   │   └── bracket.html
-│   ├── static/
-│   └── requirements.txt
+│   └── templates/
+│       ├── index.html
+│       ├── draw.html
+│       ├── group_stage.html
+│       ├── full_simulation.html
+│       ├── most_likely.html
+│       └── bracket.html
 │
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 ## اجرای برنامه
 ### نسخه CLI
