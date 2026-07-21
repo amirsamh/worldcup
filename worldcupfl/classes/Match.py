@@ -1,4 +1,5 @@
 class Match:
+    """کلاس یک مچ بین دو تیم"""
     def __init__(self, team1, team2, is_knockout=False):
         self.is_knockout = is_knockout
         self.team1 = team1
@@ -8,6 +9,7 @@ class Match:
         self.winner = None
 
     def play(self):
+        """شبیه سازی کردن یک بازی بین دو تیم و مشخص کردن برنده"""
         self.goals1, self.goals2, winner_name = self.team1.simulate_match(self.team2, self.is_knockout)
         if winner_name == self.team1.name:
             self.winner = self.team1

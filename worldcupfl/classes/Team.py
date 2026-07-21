@@ -3,6 +3,7 @@ import random
 
 
 class Team:
+    """کلاس تیم ملی فوتبال"""
     def __init__(self, name, attack, defense, rank):
         self.name = name
         self.attack = attack
@@ -14,14 +15,27 @@ class Team:
         self.group = None
 
     def goal_difference(self):
+        """محاسبه اختلاف گل
+        Returns:
+            int: عدد اختلاف گل
+        """
         return self.goals_for - self.goals_against
     
     def reset_stats(self):
+        """ریست کردن گل ها و امتیازات تیم"""
         self.goals_for = 0
         self.goals_against = 0
         self.points = 0
 
     def simulate_match(self, opponent, is_knockout=False):
+        """شبیه‌سازی یک بازی
+        Args:
+            opponent (Team): تیم حریف
+            is_knockout (bool): آیا مرحله حذفی است یا نه
+
+        Returns:
+            tuple: (گل های خود, گل های تیم حریف, برنده مسابقه)
+        """
         lambda_self = (self.attack / 100) * 1.5 + (1 - opponent.defense / 100) * 0.8
         lambda_opp = (opponent.attack / 100) * 1.5 + (1 - self.defense / 100) * 0.8
 
