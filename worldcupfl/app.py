@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from worldcup_simulator import WorldCupSimulator
+from classes.WorldCupSimulator import WorldCupSimulator
 
 app = Flask(__name__)
 sim = WorldCupSimulator()
