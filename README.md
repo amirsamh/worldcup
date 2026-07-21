@@ -26,21 +26,35 @@
 - Jinja2
 ## ساختار پروژه
 ```text
+worldcup/
 ├── worldcupcli/
-│   ├── worldcup_simulator.py
+│   ├── classes/
+│   │   ├── Colors.py
+│   │   ├── Group.py
+│   │   ├── KnockOutStage.py
+│   │   ├── Match.py
+│   │   ├── Team.py
+│   │   └── WorldCupSimulator.py
+│   ├── main.py
 │   └── worldcup_2026_teams.csv
 │
 ├── worldcupfl/
+│   ├── classes/
+│   │   ├── Group.py
+│   │   ├── KnockoutStage.py
+│   │   ├── Match.py
+│   │   ├── Team.py
+│   │   └── WorldCupSimulator.py
+│   ├── templates/
+│   │   ├── bracket.html
+│   │   ├── draw.html
+│   │   ├── full_simulation.html
+│   │   ├── group_stage.html
+│   │   ├── index.html
+│   │   ├── layout.html
+│   │   └── most_likely.html
 │   ├── app.py
-│   ├── worldcup_simulator.py
-│   ├── worldcup_2026_teams.csv
-│   └── templates/
-│       ├── index.html
-│       ├── draw.html
-│       ├── group_stage.html
-│       ├── full_simulation.html
-│       ├── most_likely.html
-│       └── bracket.html
+│   └── worldcup_2026_teams.csv
 │
 ├── README.md
 └── requirements.txt
