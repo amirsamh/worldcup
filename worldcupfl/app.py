@@ -13,6 +13,7 @@ def index():
 
 @app.route('/draw')
 def draw():
+    """انجام قرعه کشی گروه ها"""
     sim.groups = []
     sim.seed_and_draw_groups()
     groups = [{'name': group.name, 'teams': [t.name for t in group.teams]} for group in sim.groups]
@@ -21,7 +22,8 @@ def draw():
 
 @app.route('/group-stage')
 def group_stage():
-    if sim.groups != []:
+    """اجرای مرحله گروهی و نمایش جدول هر گروه"""
+    if sim.groups != []: # Check if the group draw is already done
         for team in sim.teams:
             team.reset_stats()
         sim.run_group_stage()
@@ -48,7 +50,8 @@ def group_stage():
 
 @app.route('/full-simulation')
 def full_simulation():
-    if sim.groups != []:
+    """اجرای کامل جام و نمایش قهرمان"""
+    if sim.groups != []: # Check if the group draw is already done
         champion = sim.run_full_simulation()
         bracket = []
         for stage in [sim.round_of_16, sim.quarterfinals, sim.semifinals, sim.final]:
@@ -70,7 +73,8 @@ def full_simulation():
 
 @app.route('/most-likely')
 def most_likely():
-    if sim.groups != []:
+    """شبیه سازی ۱۰۰۰ باره و گزارش درصد قهرمانی"""
+    if sim.groups != []: # Check if the group draw is already done
         stats = sim.most_likely_champion(1000)
         results = [
             {'name': name, 'percentage': round(count / 1000 * 100, 1)}
@@ -84,7 +88,8 @@ def most_likely():
 
 @app.route('/bracket')
 def bracket():
-    if sim.groups != []:
+    """نمایش براکت حذفی آخرین شبیه سازی"""
+    if sim.groups != []: # Check if the group draw is already done
         if not sim.round_of_16:
             return render_template('bracket.html', bracket=None)
         bracket = []

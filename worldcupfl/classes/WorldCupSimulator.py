@@ -28,7 +28,7 @@ class WorldCupSimulator:
         with open(filename, newline='') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                team = Team(
+                team = Team( # Set each line of the CSV file to a Team class
                     name=row['name'],
                     attack=int(row['attack']),
                     defense=int(row['defense']),
@@ -38,13 +38,13 @@ class WorldCupSimulator:
         
     def seed_and_draw_groups(self):
         """قرعه کشی گروه"""
-        sorted_teams = sorted(self.teams, key=lambda t: t.rank)
+        sorted_teams = sorted(self.teams, key=lambda t: t.rank) # Sort teams based on FIFA rankings
         seed1 = sorted_teams[0:8]
         seed2 = sorted_teams[8:16]
         seed3 = sorted_teams[16:24]
         seed4 = sorted_teams[24:32]
 
-        random.shuffle(seed1)
+        random.shuffle(seed1) # Shuffle the order of each group's teams
         random.shuffle(seed2)
         random.shuffle(seed3)
         random.shuffle(seed4)
@@ -59,7 +59,7 @@ class WorldCupSimulator:
             data (dict): نتایج هر تیم در مرحله گروهی
         """
         for group in self.groups:
-            group.play_all_matches()
+            group.play_all_matches() # Play all group matches
 
             data = {}
 
@@ -87,7 +87,7 @@ class WorldCupSimulator:
         g1, g2 = advanced_teams[6]
         h1, h2 = advanced_teams[7]
 
-        matches = [
+        matches = [ # Matching based on FIFA rules - A1 vs B2, C1 vs D2, E1 vs F2, G1 vs H2, B1 vs A2, D1 vs C2, F1 vs E2, H1 vs G2
             Match(a1, b2, is_knockout=True),
             Match(c1, d2, is_knockout=True),
             Match(e1, f2, is_knockout=True),
@@ -128,7 +128,7 @@ class WorldCupSimulator:
             Team: تیم برنده
         """
         for team in self.teams:
-            team.reset_stats()
+            team.reset_stats() # Clear the last simulation before proceeding
 
         self.run_group_stage()
         self.setup_knockout_bracket()

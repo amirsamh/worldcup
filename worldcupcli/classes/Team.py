@@ -39,7 +39,7 @@ class Team:
         lambda_self = (self.attack / 100) * 1.5 + (1 - opponent.defense / 100) * 0.8
         lambda_opp = (opponent.attack / 100) * 1.5 + (1 - self.defense / 100) * 0.8
 
-        goals_self = int(np.random.poisson(lambda_self))
+        goals_self = int(np.random.poisson(lambda_self)) # Simulate goal count for both teams using poisson
         goals_opponent = int(np.random.poisson(lambda_opp))
 
         self.goals_for += goals_self
@@ -47,7 +47,7 @@ class Team:
         opponent.goals_for += goals_opponent
         opponent.goals_against += goals_self
 
-        if goals_self > goals_opponent:
+        if goals_self > goals_opponent: # Determine winner/draw/penalty in knockout stage
             winner = self.name
             if not is_knockout:
                 self.points += 3
@@ -56,7 +56,7 @@ class Team:
             if not is_knockout:
                 opponent.points += 3
         else:
-            if is_knockout:
+            if is_knockout: # Simulate penalty in knockout stage
                 p_self = np.clip(0.75 + (self.attack - opponent.defense) / 250, 0.6, 0.9)
                 p_opp = np.clip(0.75 + (opponent.attack - self.defense) / 250, 0.6, 0.9)
 
@@ -66,12 +66,12 @@ class Team:
                     self_pens += random.random() < p_self
                     opp_pens += random.random() < p_opp
 
-                while self_pens == opp_pens:
-                    self_pens += random.random() < p_self
+                while self_pens == opp_pens: # Sudden-death stage of the penalty shootout
+                    self_pens += random.random() < p_self # Randomly generate either 0 or 1 and add to penalty goals count, If it is 1 the match ends.
                     opp_pens += random.random() < p_opp
 
                 winner = self.name if self_pens > opp_pens else opponent.name
-            else:
+            else: # Declare draw if isn't knockout
                 winner = None
                 self.points += 1
                 opponent.points += 1

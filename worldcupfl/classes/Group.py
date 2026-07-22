@@ -26,7 +26,7 @@ class Group:
         """
         return sorted(
             self.teams,
-            key=lambda t: (t.points, t.goal_difference(), t.goals_for, random.random()),
+            key=lambda t: (t.points, t.goal_difference(), t.goals_for, random.random()), # Sort by points/GD/GF or randomly
             reverse=True
         )
 
@@ -37,4 +37,4 @@ class Group:
             tuple: (تیم اول, تیم دوم)
         """
         ranking = self.get_ranking()
-        return ranking[0], ranking[1]
+        return ranking[0], ranking[1] # Advance the first two teams of the group

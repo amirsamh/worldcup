@@ -26,7 +26,7 @@ def main():
         choice = input("\nEnter your choice: ").strip()
 
         if choice == '1':
-            filename = 'worldcup_2026_teams.csv'
+            filename = 'worldcup_2026_teams.csv' # The given file name - replace it with your own filename if needed.
             try:
                 sim.load_teams_from_csv(filename)
                 print(Colors.GREEN + f"{len(sim.teams)} teams loaded successfully from {filename}." + Colors.ENDC)
