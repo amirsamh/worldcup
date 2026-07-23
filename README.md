@@ -57,6 +57,7 @@ worldcup/
 │   └── worldcup_2026_teams.csv
 │
 ├── README.md
+├── report.pdf
 └── requirements.txt
 ```
 ## اجرای برنامه
